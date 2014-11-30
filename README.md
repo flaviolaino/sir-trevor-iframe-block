@@ -1,2 +1,2 @@
-sir-trevor-iframe-block
+SirTrevor JS iframe block
 =======================
