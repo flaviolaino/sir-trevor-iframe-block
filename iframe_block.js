@@ -1,4 +1,4 @@
-SirTrevor.Blocks.Embed = (function() {
+SirTrevor.Blocks.Iframe = (function() {
 
 	return SirTrevor.Block.extend({
 
@@ -6,12 +6,12 @@ SirTrevor.Blocks.Embed = (function() {
 		regex_width : /(?:<iframe)(?:.+)(?:width="){1}([^"].+?)(?:")(?:.+)(?:<\/iframe>)/i,
 		regex_height : /(?:<iframe)(?:.+)(?:height="){1}([^"].+?)(?:")(?:.+)(?:<\/iframe>)/i,
 
-		type : 'embed',
+		type : 'iframe',
 
 		icon_name : 'iframe',
 
 		title : function() {
-			return "Embed";
+			return "Iframe";
 		},
 
 		toolbarEnabled : true,
