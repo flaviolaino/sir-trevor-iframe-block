@@ -1,75 +1,77 @@
 SirTrevor.Blocks.Iframe = (function() {
+    function isUndefined(obj) {
+        return obj === void 0;
+    }
 
-	return SirTrevor.Block.extend({
+    return SirTrevor.Block.extend({
 
-		regex_src : /(?:<iframe)(?:.+)(?:src="){1}([^"].+?)(?:")(?:.+)(?:<\/iframe>)/i,
-		regex_width : /(?:<iframe)(?:.+)(?:width="){1}([^"].+?)(?:")(?:.+)(?:<\/iframe>)/i,
-		regex_height : /(?:<iframe)(?:.+)(?:height="){1}([^"].+?)(?:")(?:.+)(?:<\/iframe>)/i,
+        regex_src : /(?:<iframe)(?:.+)(?:src="){1}([^"].+?)(?:")(?:.+)(?:<\/iframe>)/i,
+        regex_width : /(?:<iframe)(?:.+)(?:width="){1}([^"].+?)(?:")(?:.+)(?:<\/iframe>)/i,
+        regex_height : /(?:<iframe)(?:.+)(?:height="){1}([^"].+?)(?:")(?:.+)(?:<\/iframe>)/i,
 
-		type : 'iframe',
+        type : 'iframe',
 
-		icon_name : 'iframe',
+        icon_name : 'iframe',
 
-		title : function() {
-			return "Iframe";
-		},
+        title : function() {
+            return "Iframe";
+        },
 
-		toolbarEnabled : true,
+        toolbarEnabled : true,
 
-		droppable : false,
+        droppable : false,
 
-		pastable : true,
+        pastable : true,
 
-		paste_options : {
-			html : '<input type="text" placeholder="<iframe>" class="st-block__paste-input st-paste-block">'
-		},
+        paste_options : {
+            html : '<input type="text" placeholder="<iframe>" class="st-block__paste-input st-paste-block">'
+        },
 
-		onContentPasted : function(event) {
-			this.loading();
+        onContentPasted : function(event) {
+            this.loading();
 
-			obj = {};
+            obj = {};
 
-			val = $(event.target).val();
+            val = $(event.target).val();
 
-			match_src = this.regex_src.exec(val);
+            match_src = this.regex_src.exec(val);
 
-			if (match_src !== null && !_.isUndefined(match_src[1])) {
-				obj.src = match_src[1];
+            if (match_src !== null && !isUndefined(match_src[1])) {
+                obj.src = match_src[1];
 
-				match_width = val.match(this.regex_width);
-				
-				if (match_width !== null && !_.isUndefined(match_width[1])) {
-					obj.width = match_width[1];
-				}
+                match_width = val.match(this.regex_width);
 
-				match_height = val.match(this.regex_height);
-				
-				if (match_height !== null && !_.isUndefined(match_height[1])) {
-					obj.height = match_height[1];
-				}
+                if (match_width !== null && !isUndefined(match_width[1])) {
+                    obj.width = match_width[1];
+                }
 
-				this.setAndLoadData(obj);
-			}
-		},
+                match_height = val.match(this.regex_height);
 
-		uploadable : false,
+                if (match_height !== null && !isUndefined(match_height[1])) {
+                    obj.height = match_height[1];
+                }
 
-		formattable : false,
+                this.setAndLoadData(obj);
+            }
+        },
 
-		loadData : function(data) {
-			data.width = (typeof data.width == undefined || !data.width) ? '100%' : data.width;
-			data.height = (typeof data.height == undefined || !data.height) ? '100%' : data.height;
+        uploadable : false,
 
-			this.$inner.prepend(
-				$('<iframe>')
-					.attr('src', data.src)
-					.attr('class', 'st-block-embed')
-					.attr('width', data.width)
-					.attr('height', data.height)
-			);
+        formattable : false,
 
-			this.ready();
-		},
-	});
+        loadData : function(data) {
+            data.width = (typeof data.width == undefined || !data.width) ? '100%' : data.width;
+            data.height = (typeof data.height == undefined || !data.height) ? '100%' : data.height;
+
+            var iframe = document.createElement("iframe");
+            iframe.setAttribute('src', data.src);
+            iframe.setAttribute('class', 'st-block-embed');
+            iframe.setAttribute('width', data.width);
+            iframe.setAttribute('height', data.height);
+            this.inner.prepend(iframe);
+
+            this.ready();
+        }
+    });
 
 })();
